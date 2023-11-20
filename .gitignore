@@ -1,6 +1,7 @@
 # Visual Studio
 .vscode/
 .vs/
+x64/
 
 # Prerequisites
 *.d
@@ -34,3 +35,126 @@
 *.exe
 *.out
 *.app
+
+# Ignore configuration files
+*.suo
+*.user
+*.sln.docstates
+
+# Ignore log, dump and temporary files
+*.log
+*.log.*
+*.pdb
+*.ilk
+*.obj
+*.pch
+*.exp
+*.idb
+*.manifest
+*.ipch
+*.aps
+*.db
+*.ncb
+*.log
+*.sqlite
+*.sdf
+*.opensdf
+*.dbmdl
+
+# Ignore directories and files created by the compiler
+bin/
+obj/
+ipch/
+*.aps
+*.idb
+*.pdb
+*.dll
+*.exe
+
+# Ignore project files and directories
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+[Bb]in
+[Dd]ebug*/
+[Dd]ebugPublic/
+[Rr]elease*/
+[Rr]eleases/
+x64/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]inaries/
+[Ll]og/
+[Ll]ogs/
+[Ll]ogFiles/
+[Tt]emp/
+[Tt]emplate/
+[Ii]ntermediate/
+[Ss]tats/
+[Oo]bj/
+[Ll]ib/
+[Ll]ibrary/
+[Ll]ibraries/
+[Pp]ublish/
+[Tt]estResults/
+[Tt]est[Ss]ettings/
+vstest/
+[Dd]oc/
+[Ss]ite/
+[Ss]istemi/
+[Ss]ql/
+[Tt]est[Ss]ite/
+
+# Ignore backup files
+*.[Bb][Aa][Kk]
+*.[Dd][Oo][Bb]
+*.[Ll][Oo][Gg]
+*.swp
+*.bak
+*.sqlbak
+*.sqlbak2
+
+# Ignore editor settings files
+*.swp
+*~
+
+# Ignore Windows temporary files
+Thumbs.db
+Desktop.ini
+
+# Ignore user files in the project root
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore Rider configuration files
+.idea/
+
+# Ignore project files
+*.csproj.user
+*.pidb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore the Roslyn files
+*.ide
+*.ide-shm
+*.ide-wal
