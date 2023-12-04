@@ -2,8 +2,6 @@
 
 using namespace std;
 
-const int scaling = 4;
-
 GameBoard::GameBoard(ScoreCounter* scoreCounter) : scoreCounter_(scoreCounter)
 {
 	for (int i = 0; i < scaling; i++) {
@@ -19,7 +17,12 @@ void GameBoard::display()
 {
 	int i, j;
 	for (i = 0; i < scaling; i++) {
-		cout << "\t\t\t-------------------------\n\t\t\t";
+		cout << "\t\t";
+		for (int n = 0; n < scaling; n++) {
+			cout << "------";
+		}
+		cout << "-";
+		cout << "\n\t\t";
 		for (j = 0; j < scaling; j++) {
 			if (board[i][j].isEmpty())
 				cout << "| " << setw(4) << setfill(' ') << " ";
@@ -28,7 +31,12 @@ void GameBoard::display()
 		}
 		cout << "|" << endl;
 	}
-	cout << "\t\t\t-------------------------\n";
+	cout << "\t\t";
+	for (int n = 0; n < scaling; n++) {
+		cout << "------";
+	}
+	cout << "-";
+	cout << "\n";
 }
 
 void GameBoard::moveUp()
@@ -75,8 +83,8 @@ void GameBoard::moveDown()
 	int i, j, li, ri;
 	for (j = 0; j < scaling; j++)
 	{
-		li = 3, ri = j;
-		for (i = 2; i >= 0; i--)
+		li = scaling-1, ri = j;
+		for (i = scaling-2; i >= 0; i--)
 		{
 			if (board[i][j].getValue() != 0)
 			{
@@ -153,8 +161,8 @@ void GameBoard::moveRight()
 	int i, j, li, ri;
 	for (i = 0; i < scaling; i++)
 	{
-		li = i, ri = 3;
-		for (j = 2; j >= 0; j--)
+		li = i, ri = scaling-1;
+		for (j = scaling-2; j >= 0; j--)
 		{
 			if (board[i][j].getValue() != 0)
 			{
@@ -232,7 +240,7 @@ bool GameBoard::isGameOver()
 			{
 				return false;
 			}
-			if (i < 3 && board[i][j].getValue() == board[i + 1][j].getValue())
+			if (i < scaling-1 && board[i][j].getValue() == board[i + 1][j].getValue())
 			{
 				return false;
 			}
@@ -240,7 +248,7 @@ bool GameBoard::isGameOver()
 			{
 				return false;
 			}
-			if (j < 3 && board[i][j].getValue() == board[i][j + 1].getValue())
+			if (j < scaling-1 && board[i][j].getValue() == board[i][j + 1].getValue())
 			{
 				return false;
 			}
@@ -251,5 +259,15 @@ bool GameBoard::isGameOver()
 
 bool GameBoard::isGameWin()
 {
+	for (int i = 0; i < scaling; i++)
+	{
+		for (int j = 0; j < scaling; j++)
+		{
+			if (board[i][j].getValue() == 2048)
+			{
+				return true;
+			}
+		}
+	}
 	return false;
 }

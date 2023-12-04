@@ -5,11 +5,14 @@
 #include <iostream>
 #include <iomanip>
 
+const int scaling = 4;
+
 class GameBoard : public Displayable
 {
 public:
 	GameBoard(ScoreCounter* scoreCounter);
 	void display() override;
+
 	void moveUp();
 	void moveDown();
 	void moveLeft();
@@ -18,7 +21,7 @@ public:
 	bool isGameOver();
 	bool isGameWin();
 private:
-	Block board[4][4];
+	Block board[scaling][scaling];
 	ScoreCounter* scoreCounter_;
 };
 

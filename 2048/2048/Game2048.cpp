@@ -29,6 +29,12 @@ void Game2048::run()
 
         display();
 
+        if (gameBoard.isGameWin())
+        {
+            cout << "\n\n\t\t\tGAME WIN!!\n\n\n";
+            return;
+        }
+
         if (gameBoard.isGameOver()) {
             cout << "\n\n\t\t\tGAME OVER!!\n\n\n";
             return;
