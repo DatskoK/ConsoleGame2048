@@ -1,26 +1,12 @@
 #include "ScoreCounter.h"
 
-ScoreCounter::ScoreCounter()
+int ScoreCounter::updateScore(int score)
 {
-	score = 0;
-}
-
-ScoreCounter::~ScoreCounter()
-{
-}
-
-void ScoreCounter::updateScore(int points)
-{
-	score += points;
-}
-
-int ScoreCounter::getScore()
-{
-	return score;
+	return _score += score;
 }
 
 void ScoreCounter::display()
 {
-	std::cout << "ScoreBoard\n";
+	std::cout << "\t\tScoreBoard " << _score << "\n\n";
 }
 

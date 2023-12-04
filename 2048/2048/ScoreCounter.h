@@ -5,12 +5,12 @@
 class ScoreCounter : public Displayable
 {
 public:
-	ScoreCounter();
-	~ScoreCounter();
-	void updateScore(int points);
-	int getScore();
+	ScoreCounter() : _score(0) {};
+	~ScoreCounter() {};
+	int updateScore(int score);
+	int getScore() const { return _score; }
 	void display() override;
 private:
-	int score;
+	int _score;
 };
 

@@ -3,11 +3,12 @@
 #include "Block.h"
 #include "ScoreCounter.h"
 #include <iostream>
+#include <iomanip>
 
 class GameBoard : public Displayable
 {
 public:
-	GameBoard(ScoreCounter &scoreCounter_);
+	GameBoard(ScoreCounter* scoreCounter);
 	void display() override;
 	void moveUp();
 	void moveDown();
@@ -15,9 +16,9 @@ public:
 	void moveRight();
 	void addBlock();
 	bool isGameOver();
+	bool isGameWin();
 private:
-	void merger();
 	Block board[4][4];
-	ScoreCounter &scoreCounter_;
+	ScoreCounter* scoreCounter_;
 };
 

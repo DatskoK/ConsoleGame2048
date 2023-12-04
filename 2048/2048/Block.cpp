@@ -1,22 +1,11 @@
 #include "Block.h"
 
-Block::Block()
+void Block::merge()
 {
+	_value *= 2;
 }
 
-Block::Block(int val)
+void Block::clear()
 {
-}
-
-Block::~Block()
-{
-}
-
-void Block::move()
-{
-}
-
-bool Block::isEmpty()
-{
-	return false;
+	_value = 0;
 }

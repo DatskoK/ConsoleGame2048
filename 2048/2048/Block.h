@@ -2,12 +2,12 @@
 
 class Block {
 public:
-	Block();
-	Block(int val);
-	~Block();
-	void move();
-	bool isEmpty();
+	Block() : _value(0) {};
+	explicit Block(int val) : _value(val) {};
+	int getValue() const { return _value; }
+	bool isEmpty() const { return _value == 0; }
+	void merge();
+	void clear();
 private:
-	int value;
-	int size;
+	int _value;
 };
