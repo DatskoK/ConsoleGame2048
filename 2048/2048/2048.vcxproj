@@ -131,7 +131,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Game2048.cpp" />
     <ClCompile Include="GameBoard.cpp" />
-    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Messages.cpp" />
     <ClCompile Include="ScoreCounter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +139,7 @@
     <ClInclude Include="Displayable.h" />
     <ClInclude Include="Game2048.h" />
     <ClInclude Include="GameBoard.h" />
-    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Messages.h" />
     <ClInclude Include="ScoreCounter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

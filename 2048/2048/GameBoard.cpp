@@ -6,7 +6,7 @@ GameBoard::GameBoard(ScoreCounter* scoreCounter) : scoreCounter_(scoreCounter)
 {
 	for (int i = 0; i < scaling; i++) {
 		for (int j = 0; j < scaling; j++) {
-			board[i][j] = Block();
+			board[i][j] = nullptr;
 		}
 	}
 	addBlock();
@@ -15,256 +15,175 @@ GameBoard::GameBoard(ScoreCounter* scoreCounter) : scoreCounter_(scoreCounter)
 
 void GameBoard::display()
 {
-	int i, j;
-	for (i = 0; i < scaling; i++) {
+		int i, j;
+		for (i = 0; i < scaling; i++) {
+			cout << "\t\t";
+			for (int n = 0; n < scaling; n++) {
+				cout << "------";
+			}
+			cout << "-";
+			cout << "\n\t\t";
+			for (j = 0; j < scaling; j++) {
+				if (board[i][j] == nullptr)
+					cout << "| " << setw(4) << setfill('-') << " ";
+				else
+					cout << "| " << setw(4) << setfill(' ') << (*board[i][j]).getValue();
+			}
+			cout << "|" << endl;
+		}
 		cout << "\t\t";
 		for (int n = 0; n < scaling; n++) {
 			cout << "------";
 		}
 		cout << "-";
-		cout << "\n\t\t";
-		for (j = 0; j < scaling; j++) {
-			if (board[i][j].isEmpty())
-				cout << "| " << setw(4) << setfill(' ') << " ";
-			else
-				cout << "| " << setw(4) << setfill(' ') << board[i][j].getValue();
-		}
-		cout << "|" << endl;
-	}
-	cout << "\t\t";
-	for (int n = 0; n < scaling; n++) {
-		cout << "------";
-	}
-	cout << "-";
-	cout << "\n";
+		cout << "\n";
 }
 
-void GameBoard::moveUp()
-{
-	int i, j, li, ri;
-	for (j = 0; j < scaling; j++)
-	{
-		li = 0, ri = j;
-		for (i = 1; i < scaling; i++)
-		{
-			if (board[i][j].getValue() != 0)
-			{
-				if (board[i - 1][j].isEmpty() || board[i - 1][j].getValue() == board[i][j].getValue())
-				{
-					if (board[li][ri].getValue() == board[i][j].getValue())
-					{
-						board[li][ri].merge();
-						board[i][j].clear();
-						scoreCounter_->updateScore(board[li][ri].getValue());
-					}
-					else
-					{
-						if (board[li][ri].isEmpty())
-						{
-							board[li][ri] = board[i][j];
-							board[i][j].clear();
-						}
-						else
-						{
-							board[++li][ri] = board[i][j];
-							board[i][j].clear();
-						}
-					}
-				}
-				else li++;
+void GameBoard::moveUp() {
+	bool canMoveUp = false;
+	for (int j = 0; j < scaling; j++) {
+		int k = 0;
+		for (int i = 0; i < scaling; i++) {
+			if (board[i][j] != nullptr) {
+				while (k > 0 && board[k - 1][j]->getValue() == board[i][j]->getValue()) {
+					delete board[k - 1][j];
+					board[k - 1][j] = nullptr;
+					board[i][j]->merge();
+					k--;
+					canMoveUp = true;
+				} if (k != i) {
+					board[k][j] = board[i][j];
+					board[i][j] = nullptr;
+					canMoveUp = true;
+				} k++;
 			}
 		}
 	}
-	addBlock();
+	if (canMoveUp) {
+		addBlock();
+	}
 }
 
-void GameBoard::moveDown()
-{
-	int i, j, li, ri;
-	for (j = 0; j < scaling; j++)
-	{
-		li = scaling-1, ri = j;
-		for (i = scaling-2; i >= 0; i--)
-		{
-			if (board[i][j].getValue() != 0)
-			{
-				if (board[i + 1][j].isEmpty() || board[i + 1][j].getValue() == board[i][j].getValue())
-				{
-					if (board[li][ri].getValue() == board[i][j].getValue())
-					{
-						board[li][ri].merge();
-						board[i][j].clear();
-						scoreCounter_->updateScore(board[li][ri].getValue());
-					}
-					else
-					{
-						if (board[li][ri].isEmpty())
-						{
-							board[li][ri] = board[i][j];
-							board[i][j].clear();
-						}
-						else
-						{
-							board[--li][ri] = board[i][j];
-							board[i][j].clear();
-						}
-					}
-				}
-				else li--;
+void GameBoard::moveDown() {
+	bool canMoveDown = false;
+	for (int j = 0; j < scaling; j++) {
+		int k = scaling - 1;
+		for (int i = scaling - 1; i >= 0; i--) {
+			if (board[i][j] != nullptr) {
+				while (k < scaling - 1 && board[k + 1][j]->getValue() == board[i][j]->getValue()) {
+					delete board[k + 1][j];
+					board[k + 1][j] = nullptr;
+					board[i][j]->merge();
+					k++;
+					canMoveDown = true;
+				} if (k != i) {
+					board[k][j] = board[i][j];
+					board[i][j] = nullptr;
+					canMoveDown = true;
+				} k--;
 			}
 		}
 	}
-	addBlock();
+	if (canMoveDown) {
+		addBlock();
+	}
 }
 
-void GameBoard::moveLeft()
-{
-	int i, j, li, ri;
-	for (i = 0; i < scaling; i++)
-	{
-		li = i, ri = 0;
-		for (j = 1; j < scaling; j++)
-		{
-			if (board[i][j].getValue() != 0)
-			{
-				if (board[i][j - 1].isEmpty() || board[i][j - 1].getValue() == board[i][j].getValue())
-				{
-					if (board[li][ri].getValue() == board[i][j].getValue())
-					{
-						board[li][ri].merge();
-						board[i][j].clear();
-						scoreCounter_->updateScore(board[li][ri].getValue());
-					}
-					else
-					{
-						if (board[li][ri].isEmpty())
-						{
-							board[li][ri] = board[i][j];
-							board[i][j].clear();
-						}
-						else
-						{
-							board[li][++ri] = board[i][j];
-							board[i][j].clear();
-						}
-					}
-				}
-				else ri++;
+void GameBoard::moveLeft() {
+	bool canMoveLeft = false;
+	for (int i = 0; i < scaling; i++) {
+		int k = 0;
+		for (int j = 0; j < scaling; j++) {
+			if (board[i][j] != nullptr) {
+				while (k > 0 && board[i][k - 1]->getValue() == board[i][j]->getValue()) {
+					delete board[i][k - 1];
+					board[i][k - 1] = nullptr;
+					board[i][j]->merge();
+					k--;
+					canMoveLeft = true;
+				} if (k != j) {
+					board[i][k] = board[i][j];
+					board[i][j] = nullptr;
+					canMoveLeft = true;
+				} k++;
 			}
 		}
 	}
-	addBlock();
+	if (canMoveLeft) {
+		addBlock();
+	}
 }
 
-void GameBoard::moveRight()
-{
-	int i, j, li, ri;
-	for (i = 0; i < scaling; i++)
-	{
-		li = i, ri = scaling-1;
-		for (j = scaling-2; j >= 0; j--)
-		{
-			if (board[i][j].getValue() != 0)
-			{
-				if (board[i][j + 1].isEmpty() || board[i][j + 1].getValue() == board[i][j].getValue())
-				{
-					if (board[li][ri].getValue() == board[i][j].getValue())
-					{
-						board[li][ri].merge();
-						board[i][j].clear();
-						scoreCounter_->updateScore(board[li][ri].getValue());
-					}
-					else
-					{
-						if (board[li][ri].isEmpty())
-						{
-							board[li][ri] = board[i][j];
-							board[i][j].clear();
-						}
-						else
-						{
-							board[li][--ri] = board[i][j];
-							board[i][j].clear();
-						}
-					}
-				}
-				else ri--;
+void GameBoard::moveRight() {
+	bool canMoveRight = false;
+	for (int i = 0; i < scaling; i++) {
+		int k = scaling - 1;
+		for (int j = scaling - 1; j >= 0; j--) {
+			if (board[i][j] != nullptr) {
+				while (k < scaling - 1 && board[i][k + 1]->getValue() == board[i][j]->getValue()) {
+					delete board[i][k + 1];
+					board[i][k + 1] = nullptr;
+					board[i][j]->merge();
+					k++;
+					canMoveRight = true;
+				} if (k != j) {
+					board[i][k] = board[i][j];
+					board[i][j] = nullptr;
+					canMoveRight = true;
+				} k--;
 			}
 		}
 	}
-	addBlock();
+	if (canMoveRight) {
+		addBlock();
+	}
 }
 
-void GameBoard::addBlock()
-{
-	bool check = false;
-	for (int i = 0; i < scaling; i++)
-	{
-		for (int j = 0; j < scaling; j++)
-		{
-			if (board[i][j].isEmpty())
-			{
-				check = true;
-			}
-		}
-	}
-	if (check)
-	{
-		int row, col;
-		do {
-			row = rand() % scaling;
-			col = rand() % scaling;
-		} while (!board[row][col].isEmpty());
-
-		board[row][col] = Block(rand() % 2 == 0 ? 2 : 4);
-	}
+void GameBoard::addBlock() {
+	int i, j;
+	do {
+		i = rand() % scaling;
+		j = rand() % scaling;
+	} while (board[i][j] != nullptr);
+	board[i][j] = new Block(rand() % 2 == 0 ? 2 : 4);
 }
 
 bool GameBoard::isGameOver()
 {
-	for (int i = 0; i < scaling; i++)
-	{
-		for (int j = 0; j < scaling; j++)
-		{
-			if (board[i][j].isEmpty()) 
-			{
-				return false;
+	bool canMove = false;
+	for (int i = 0; i < scaling; i++) {
+		for (int j = 0; j < scaling - 1; j++) {
+			if (board[i][j] == nullptr || board[i][j + 1] == nullptr || board[i][j]->getValue() == board[i][j + 1]->getValue()) {
+				canMove = true;
+				break;
+			}
+		}
+		if (canMove) {
+			break;
+		}
+	}
+	if (!canMove) {
+		for (int j = 0; j < scaling; j++) {
+			for (int i = 0; i < scaling - 1; i++) {
+				if (board[i][j] == nullptr || board[i + 1][j] == nullptr || board[i][j]->getValue() == board[i + 1][j]->getValue()) {
+					canMove = true;
+					break;
+				}
+			}
+			if (canMove) {
+				break;
 			}
 		}
 	}
-	for (int i = 0; i < scaling; i++)
-	{
-		for (int j = 0; j < scaling; j++)
-		{
-			if (i > 0 && board[i][j].getValue() == board[i-1][j].getValue())
-			{
-				return false;
-			}
-			if (i < scaling-1 && board[i][j].getValue() == board[i + 1][j].getValue())
-			{
-				return false;
-			}
-			if (j > 0 && board[i][j].getValue() == board[i][j - 1].getValue())
-			{
-				return false;
-			}
-			if (j < scaling-1 && board[i][j].getValue() == board[i][j + 1].getValue())
-			{
-				return false;
-			}
-		}
-	}
-	return true;
+	return !canMove;
 }
 
 bool GameBoard::isGameWin()
 {
-	for (int i = 0; i < scaling; i++)
-	{
-		for (int j = 0; j < scaling; j++)
-		{
-			if (board[i][j].getValue() == 2048)
-			{
+	int winValue = 2048;
+	for (int i = 0; i < scaling; i++) {
+		for (int j = 0; j < scaling; j++) {
+			if (board[i][j] != nullptr && board[i][j]->getValue() >= winValue) {
 				return true;
 			}
 		}

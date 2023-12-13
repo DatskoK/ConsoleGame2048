@@ -21,7 +21,7 @@ public:
 	bool isGameOver();
 	bool isGameWin();
 private:
-	Block board[scaling][scaling];
+	Block* board[scaling][scaling];
 	ScoreCounter* scoreCounter_;
 };
 

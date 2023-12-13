@@ -8,7 +8,7 @@ Game2048::Game2048() : gameBoard(&scoreCounter)
 
 void Game2048::run()
 {
-    cout << "\n\n\n\n\t\t\t2048 GAME\n\n\n\t\tPress any key to continue";
+    messages.start();
     int ch = _getch();
     system("cls");
 
@@ -16,7 +16,7 @@ void Game2048::run()
 
     Input input;
     while (true) {
-        input = inputManager.getInput();
+        input = getInput();
         system("cls");
         switch (input) {
             case Input::UP: gameBoard.moveUp(); break;
@@ -31,12 +31,12 @@ void Game2048::run()
 
         if (gameBoard.isGameWin())
         {
-            cout << "\n\n\t\t\tGAME WIN!!\n\n\n";
+            messages.gameWin();
             return;
         }
 
         if (gameBoard.isGameOver()) {
-            cout << "\n\n\t\t\tGAME OVER!!\n\n\n";
+            messages.gameOver();
             return;
         }
     }
@@ -44,10 +44,17 @@ void Game2048::run()
 
 void Game2048::display()
 {
-    cout << "\n\t\tPress Esc anytime to quit the game";
-    cout << "\n\n";
-
+    messages.exit();
 	for (Displayable* displayable_ : displayable) {
 		displayable_->display();
 }
+}
+
+Input Game2048::getInput()
+{
+    int ch = _getch();
+    if (ch == 0xE0 || ch == 0)
+    {
+        return static_cast<Input>(ch);
+    }
 }
